@@ -1,11 +1,11 @@
 import  { useState, useEffect } from 'react';
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ComposedChart } from 'recharts';
-import { Ship, Package, TrendingUp, Clock, AlertCircle, Activity, Anchor, Truck, Warehouse, Users, DollarSign, Zap, MapPin, Bell, Settings, Menu, X, ChevronDown, ArrowUpRight, ArrowDownRight, Calendar, FileText, Search, Filter, Download, Upload, RefreshCw, Eye, Edit, Trash2, Plus, CheckCircle, XCircle, AlertTriangle, Info } from 'lucide-react';
+import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { Ship, Package, TrendingUp, Clock, AlertCircle, Activity, Anchor, Truck, Warehouse, Users, DollarSign, Zap, MapPin, Bell, Settings, Menu, X, ArrowUpRight, ArrowDownRight, Calendar, Search, Filter, Download, Upload, RefreshCw, Eye, Edit, Plus, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [notifications, setNotifications] = useState(3);
+  const [notifications] = useState(3);
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
