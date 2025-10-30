@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { Filter, Ship, Eye, X, Package, Truck, Weight, Container } from 'lucide-react';
+import { Filter, Ship, Eye, X, Package, Truck, Weight, Container, Calendar } from 'lucide-react';
 import { vesselDetails } from '../data/mockData';
-
 import type { Vessel } from '../interface/vessel';
 
 export default function VesselsPage() {
   const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Date filter states
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [filteredVessels, setFilteredVessels] = useState<Vessel[]>(vesselDetails);
 
   const openModal = (vessel: Vessel): void => {
     setSelectedVessel(vessel);
@@ -18,15 +23,106 @@ export default function VesselsPage() {
     setSelectedVessel(null);
   };
 
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  const applyDateFilter = () => {
+    if (!startDate && !endDate) {
+      setFilteredVessels(vesselDetails);
+      return;
+    }
+
+    const filtered = vesselDetails.filter((vessel) => {
+      const arrivalDate = new Date(vessel.arrival);
+      const start = startDate ? new Date(startDate) : null;
+      const end = endDate ? new Date(endDate) : null;
+
+      if (start && end) {
+        return arrivalDate >= start && arrivalDate <= end;
+      } else if (start) {
+        return arrivalDate >= start;
+      } else if (end) {
+        return arrivalDate <= end;
+      }
+      return true;
+    });
+
+    setFilteredVessels(filtered);
+    setIsFilterOpen(false);
+  };
+
+  const clearFilter = () => {
+    setStartDate('');
+    setEndDate('');
+    setFilteredVessels(vesselDetails);
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">Quản lý cầu bến</h2>
-        <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all">
+        <div className="flex gap-3 relative">
+          <button
+            onClick={toggleFilter}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all"
+          >
             <Filter size={18} />
             <span>Lọc</span>
           </button>
+
+          {/* Filter Dropdown */}
+          {isFilterOpen && (
+            <div className="absolute top-12 right-0 z-40 bg-slate-800 border-2 border-slate-700 rounded-xl p-4 w-80 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white font-semibold flex items-center gap-2">
+                  <Calendar size={18} className="text-blue-400" />
+                  Lọc theo ngày
+                </h3>
+                <button onClick={toggleFilter} className="text-slate-400 hover:text-white">
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="text-slate-400 text-sm mb-1 block">Từ ngày</label>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-slate-400 text-sm mb-1 block">Đến ngày</label>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white focus:border-blue-500 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    onClick={clearFilter}
+                    className="flex-1 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-all"
+                  >
+                    Xóa
+                  </button>
+                  <button
+                    onClick={applyDateFilter}
+                    className="flex-1 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+                  >
+                    Áp dụng
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -37,21 +133,27 @@ export default function VesselsPage() {
             <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
             <span className="text-slate-400 text-sm">Đang làm hàng</span>
           </div>
-          <p className="text-3xl font-bold text-white">8</p>
+          <p className="text-3xl font-bold text-white">
+            {filteredVessels.filter(v => v.status === 'Đang làm hàng').length}
+          </p>
         </div>
         <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700 rounded-xl p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
             <span className="text-slate-400 text-sm">Đã cập bến</span>
           </div>
-          <p className="text-3xl font-bold text-white">3</p>
+          <p className="text-3xl font-bold text-white">
+            {filteredVessels.filter(v => v.status === 'Đã cập bến').length}
+          </p>
         </div>
         <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700 rounded-xl p-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
             <span className="text-slate-400 text-sm">Chưa cập bến</span>
           </div>
-          <p className="text-3xl font-bold text-white">5</p>
+          <p className="text-3xl font-bold text-white">
+            {filteredVessels.filter(v => v.status === 'Chưa cập bến').length}
+          </p>
         </div>
         <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700 rounded-xl p-4">
           <div className="flex items-center gap-3 mb-2">
@@ -80,7 +182,7 @@ export default function VesselsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700">
-              {vesselDetails.map((vessel, idx) => (
+              {filteredVessels.map((vessel, idx) => (
                 <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
                   <td className="px-6 py-4">
                     <span className="text-slate-300 font-mono text-sm">{vessel.id}</span>
