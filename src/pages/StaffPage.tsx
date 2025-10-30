@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, Plus, XCircle, CheckCircle, Users, Clock, Truck } from 'lucide-react';
+import { Calendar, XCircle, CheckCircle, Users, Clock, Truck } from 'lucide-react';
 import { staffData } from '../data/mockData';
 
 export default function StaffPage() {
@@ -42,10 +42,6 @@ export default function StaffPage() {
           <button className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all">
             <Calendar size={18} />
             <span>Lịch làm việc</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-xl text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all">
-            <Plus size={18} />
-            <span>Thêm nhân viên</span>
           </button>
         </div>
       </div>

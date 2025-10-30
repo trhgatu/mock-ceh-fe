@@ -1,4 +1,4 @@
-import { RefreshCw, Plus, CheckCircle, AlertCircle, XCircle, Zap, Activity, Eye } from 'lucide-react';
+import { RefreshCw, CheckCircle, AlertCircle, XCircle, Zap, Activity, Eye } from 'lucide-react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { equipmentList, equipmentPerformance } from '../data/mockData';
 
@@ -11,10 +11,6 @@ export default function EquipmentPage() {
           <button className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all">
             <RefreshCw size={18} />
             <span>Làm mới</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-xl text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all">
-            <Plus size={18} />
-            <span>Thêm thiết bị</span>
           </button>
         </div>
       </div>

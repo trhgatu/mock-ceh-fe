@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Plus, XCircle, CheckCircle, Warehouse as WarehouseIcon, Package, TrendingUp, Activity, Eye, Edit } from 'lucide-react';
+import { MapPin, XCircle, CheckCircle, Warehouse as WarehouseIcon, Package, TrendingUp, Activity, Eye } from 'lucide-react';
 import { warehouseData } from '../data/mockData';
 
 export default function WarehousePage() {
@@ -34,10 +34,6 @@ export default function WarehousePage() {
           <button className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all">
             <MapPin size={18} />
             <span>Xem sơ đồ</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-xl text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all">
-            <Plus size={18} />
-            <span>Thêm kho</span>
           </button>
         </div>
       </div>
@@ -211,10 +207,6 @@ export default function WarehousePage() {
                 <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all">
                   <Eye size={16} />
                   <span className="text-sm">Chi tiết</span>
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-slate-700/50 text-slate-400 rounded-lg hover:bg-slate-700 transition-all">
-                  <Edit size={16} />
-                  <span className="text-sm">Sửa</span>
                 </button>
               </div>
             </div>
