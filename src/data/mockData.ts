@@ -74,9 +74,9 @@ export const cargoTypes = [
 
 // Dữ liệu cảng/bến
 export const berthStatus = [
-  { berth: 'Bến A1', vessel: 'MV OCEAN STAR', status: 'active', cargo: 'Than', progress: 90, eta: '14:30', captain: 'Nguyễn Văn A', tonnage: 45000 },
-  { berth: 'Bến A2', vessel: 'MV PACIFIC GLORY', status: 'active', cargo: 'Quặng', progress: 75, eta: '16:00', captain: 'Trần Văn B', tonnage: 38000 },
-  { berth: 'Bến A3', vessel: 'MV SUNRISE', status: 'active', cargo: 'Ngũ cốc', progress: 45, eta: '12:45', captain: 'Lê Văn C', tonnage: 32000 },
+  { berth: 'Bến A1', vessel: 'MV OCEAN STAR', status: 'active', cargo: 'Tole nóng', progress: 90, eta: '14:30', captain: 'Nguyễn Văn A', tonnage: 45000 },
+  { berth: 'Bến A2', vessel: 'MV PACIFIC GLORY', status: 'active', cargo: 'Băng nóng', progress: 75, eta: '16:00', captain: 'Trần Văn B', tonnage: 38000 },
+  { berth: 'Bến A3', vessel: 'MV SUNRISE', status: 'active', cargo: 'Cáp cuộn', progress: 45, eta: '12:45', captain: 'Lê Văn C', tonnage: 32000 },
   { berth: 'Bến B1', vessel: 'Trống', status: 'idle', cargo: '-', progress: 0, eta: '-', captain: '-', tonnage: 0 },
   { berth: 'Bến B2', vessel: 'MV DRAGON WAVE', status: 'maintenance', cargo: 'Bảo trì', progress: 0, eta: '18:00', captain: 'Phạm Văn D', tonnage: 0 },
 ];
