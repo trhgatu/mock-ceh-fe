@@ -196,7 +196,7 @@ export default function OverviewPage() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {equipmentChartData.map((entry, index) => (
+                  {equipmentChartData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

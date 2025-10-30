@@ -97,7 +97,15 @@ export const vesselDetails = [
     quantity: 35000,
     progress: 90,
     captain: 'Nguyễn Văn A',
-    agent: 'Công ty TNHH Vận Tải Biển ABC'
+    agent: 'Công ty TNHH Vận Tải Biển ABC',
+    // Chi tiết hàng hóa
+    hold1: 5200,      // Hầm 1 (tấn)
+    hold2: 4800,      // Hầm 2 (tấn)
+    yard: 8500,       // Bãi (tấn)
+    packages: 1250,   // Kiện
+    // Thông tin vận chuyển
+    trucks: 24,       // Số xe
+    warehouse: 'VCK2' // Bãi chứa
   },
   {
     id: 'V002',
@@ -113,7 +121,15 @@ export const vesselDetails = [
     quantity: 28000,
     progress: 75,
     captain: 'Trần Văn B',
-    agent: 'Công ty CP Logistics XYZ'
+    agent: 'Công ty CP Logistics XYZ',
+    // Chi tiết hàng hóa
+    hold1: 4500,
+    hold2: 3800,
+    yard: 6200,
+    packages: 980,
+    // Thông tin vận chuyển
+    trucks: 18,
+    warehouse: 'VCCDCT'
   },
   {
     id: 'V003',
@@ -129,7 +145,15 @@ export const vesselDetails = [
     quantity: 29000,
     progress: 45,
     captain: 'Lê Văn C',
-    agent: 'Công ty TNHH Đại lý Tàu Biển DEF'
+    agent: 'Công ty TNHH Đại lý Tàu Biển DEF',
+    // Chi tiết hàng hóa
+    hold1: 6200,
+    hold2: 5800,
+    yard: 7500,
+    packages: 1150,
+    // Thông tin vận chuyển
+    trucks: 20,
+    warehouse: 'SBBS'
   },
   {
     id: 'V004',
@@ -145,7 +169,15 @@ export const vesselDetails = [
     quantity: 0,
     progress: 0,
     captain: 'Phạm Văn D',
-    agent: 'Công ty TNHH Dịch vụ Hàng Hải GHI'
+    agent: 'Công ty TNHH Dịch vụ Hàng Hải GHI',
+    // Chi tiết hàng hóa
+    hold1: 0,
+    hold2: 0,
+    yard: 0,
+    packages: 0,
+    // Thông tin vận chuyển
+    trucks: 0,
+    warehouse: '-'
   },
 ];
 

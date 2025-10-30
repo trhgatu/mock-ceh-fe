@@ -1,7 +1,23 @@
-import { Filter, Ship, Eye } from 'lucide-react';
+import { useState } from 'react';
+import { Filter, Ship, Eye, X, Package, Truck, Weight, Container } from 'lucide-react';
 import { vesselDetails } from '../data/mockData';
 
+import type { Vessel } from '../interface/vessel';
+
 export default function VesselsPage() {
+  const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (vessel: Vessel): void => {
+    setSelectedVessel(vessel);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedVessel(null);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -103,7 +119,10 @@ export default function VesselsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
-                      <button className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all">
+                      <button
+                        onClick={() => openModal(vessel)}
+                        className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all"
+                      >
                         <Eye size={16} />
                       </button>
                     </div>
@@ -114,6 +133,172 @@ export default function VesselsPage() {
           </table>
         </div>
       </div>
+
+      {/* Modal Chi tiết */}
+      {isModalOpen && selectedVessel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-slate-800 border-2 border-slate-700 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-slate-800 border-b border-slate-700 p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{selectedVessel.flag}</span>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{selectedVessel.name}</h3>
+                  <p className="text-slate-400 text-sm mt-1">Mã: {selectedVessel.id} • Bến: {selectedVessel.berth}</p>
+                </div>
+              </div>
+              <button
+                onClick={closeModal}
+                className="p-2 hover:bg-slate-700 rounded-lg transition-all"
+              >
+                <X className="text-slate-400" size={24} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-6">
+              {/* Thông tin cơ bản */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">Loại tàu</p>
+                  <p className="text-white font-semibold text-lg">{selectedVessel.type}</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">DWT</p>
+                  <p className="text-white font-semibold text-lg">{selectedVessel.dwt.toLocaleString()} tấn</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">Thời gian cập cảng</p>
+                  <p className="text-white font-semibold text-lg">{selectedVessel.arrival}</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">Thời gian rời cảng</p>
+                  <p className="text-white font-semibold text-lg">{selectedVessel.departure}</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">Thuyền trưởng</p>
+                  <p className="text-white font-semibold text-lg">{selectedVessel.captain}</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                  <p className="text-slate-400 text-sm mb-1">Đại lý</p>
+                  <p className="text-white font-semibold text-sm">{selectedVessel.agent}</p>
+                </div>
+              </div>
+
+              {/* Trạng thái và tiến độ */}
+              <div className="bg-linear-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white font-semibold text-lg">Trạng thái hiện tại</span>
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
+                    selectedVessel.status === 'Đang làm hàng' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                    selectedVessel.status === 'Đã cập bến' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+                    selectedVessel.status === 'Chưa cập bến' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+                    'bg-slate-500/20 text-slate-400 border border-slate-500/30'
+                  }`}>
+                    {selectedVessel.status}
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-400">Tiến độ xếp dỡ</span>
+                    <span className="text-white font-bold">{selectedVessel.progress}%</span>
+                  </div>
+                  <div className="h-4 bg-slate-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-linear-to-r from-blue-500 to-emerald-500 transition-all duration-500"
+                      style={{ width: `${selectedVessel.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chi tiết hàng hóa */}
+              <div>
+                <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Package className="text-blue-400" size={20} />
+                  Chi tiết hàng hóa
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Container className="text-blue-400" size={18} />
+                      <p className="text-slate-400 text-sm">Hầm 1</p>
+                    </div>
+                    <p className="text-white font-bold text-xl">5,200</p>
+                    <p className="text-slate-400 text-xs mt-1">tấn</p>
+                  </div>
+                  <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Container className="text-emerald-400" size={18} />
+                      <p className="text-slate-400 text-sm">Hầm 2</p>
+                    </div>
+                    <p className="text-white font-bold text-xl">4,800</p>
+                    <p className="text-slate-400 text-xs mt-1">tấn</p>
+                  </div>
+                  <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Package className="text-purple-400" size={18} />
+                      <p className="text-slate-400 text-sm">Bãi</p>
+                    </div>
+                    <p className="text-white font-bold text-xl">8,500</p>
+                    <p className="text-slate-400 text-xs mt-1">tấn</p>
+                  </div>
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Weight className="text-amber-400" size={18} />
+                      <p className="text-slate-400 text-sm">Kiện</p>
+                    </div>
+                    <p className="text-white font-bold text-xl">1,250</p>
+                    <p className="text-slate-400 text-xs mt-1">kiện</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Thông tin vận chuyển */}
+              <div>
+                <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Truck className="text-emerald-400" size={20} />
+                  Thông tin vận chuyển
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                    <p className="text-slate-400 text-sm mb-2">Số xe</p>
+                    <p className="text-white font-bold text-2xl">24</p>
+                    <p className="text-slate-500 text-xs mt-1">xe đầu kéo</p>
+                  </div>
+                  <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                    <p className="text-slate-400 text-sm mb-2">Loại hàng</p>
+                    <p className="text-white font-semibold text-base">{selectedVessel.cargo}</p>
+                  </div>
+                  <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                    <p className="text-slate-400 text-sm mb-2">Bãi chứa</p>
+                    <p className="text-white font-bold text-xl">VCK2</p>
+                    <p className="text-slate-500 text-xs mt-1">Kho chính</p>
+                  </div>
+                  <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
+                    <p className="text-slate-400 text-sm mb-2">Tổng trọng lượng</p>
+                    <p className="text-white font-bold text-xl">{selectedVessel.quantity.toLocaleString()}</p>
+                    <p className="text-slate-500 text-xs mt-1">tấn</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="sticky bottom-0 bg-slate-800 border-t border-slate-700 p-6 flex justify-end gap-3">
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 bg-slate-700 text-white rounded-xl hover:bg-slate-600 transition-all"
+              >
+                Đóng
+              </button>
+              <button className="px-6 py-2 bg-linear-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all">
+                Xuất báo cáo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
